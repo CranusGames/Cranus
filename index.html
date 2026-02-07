@@ -1,199 +1,198 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CRANUS GAMES</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRANUS GAMES</title>
 
-  <style>
-    :root {
-      --bg: #000;
-      --fg: #fff;
-    }
+<style>
+:root {
+  --bg:#000;
+  --fg:#fff;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* { box-sizing:border-box; }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow-x: hidden;
-      scroll-snap-type: y mandatory;
-    }
+html,body {
+  margin:0;
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:Inter,system-ui,sans-serif;
+}
 
-    /* HERO */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      scroll-snap-align: start;
-      overflow: hidden;
-    }
+/* HERO */
+.hero {
+  position:relative;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+}
 
-    .logo-text {
-      position: relative;
-      z-index: 3;
-      font-size: clamp(3rem, 9vw, 7rem);
-      letter-spacing: 0.18em;
-      font-weight: 600;
-      animation: float 4s ease-in-out infinite, glow 2.5s ease-in-out infinite alternate;
-    }
+.logo-text {
+  font-size:clamp(3rem,9vw,7rem);
+  letter-spacing:0.18em;
+  font-weight:600;
+  animation:float 4s ease-in-out infinite, glow 2.5s ease-in-out infinite alternate;
+}
 
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
-      100% { transform: translateY(0); }
-    }
+@keyframes float {
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+  100%{transform:translateY(0)}
+}
 
-    @keyframes glow {
-      from { text-shadow: 0 0 8px rgba(255,255,255,0.2); }
-      to   { text-shadow: 0 0 26px rgba(255,255,255,0.6); }
-    }
+@keyframes glow {
+  from{ text-shadow:0 0 8px rgba(255,255,255,.2);}
+  to{ text-shadow:0 0 26px rgba(255,255,255,.6);}
+}
 
-    /* BACKGROUND GALLERY (ONLY HERO) */
-    .hero-gallery {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 1;
-    }
+/* DASHBOARD */
+.dashboard {
+  display:flex;
+  gap:3rem;
+  margin-top:2rem;
+  z-index:2;
+}
 
-    .bg-item {
-      position: absolute;
-      opacity: 0;
-      will-change: transform, opacity;
-    }
+.stat {
+  text-align:center;
+}
 
-    .bg-item img {
-      max-width: 240px;
-      border-radius: 6px;
-      filter: grayscale(100%) contrast(1.1);
-    }
+.stat-value {
+  font-size:2rem;
+  font-weight:600;
+}
 
-    /* SCROLL ARROW */
-    .scroll-arrow {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      font-size: 1.6rem;
-      opacity: 0.7;
-      animation: arrowBounce 2s ease-in-out infinite;
-    }
+.stat-label {
+  font-size:.75rem;
+  letter-spacing:.15em;
+  opacity:.7;
+}
 
-    @keyframes arrowBounce {
-      0%   { transform: translate(-50%, 0); opacity: 0.4; }
-      50%  { transform: translate(-50%, 12px); opacity: 1; }
-      100% { transform: translate(-50%, 0); opacity: 0.4; }
-    }
+/* SCROLL ARROW */
+.scroll-arrow {
+  margin-top:2rem;
+  font-size:3rem;
+  animation:bounce 1.6s infinite;
+  opacity:.8;
+}
 
-    /* DOWNLOAD SECTION */
-    .download-section {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      scroll-snap-align: start;
-      background: radial-gradient(
-        circle at center,
-        rgba(255,255,255,0.04),
-        rgba(0,0,0,1) 70%
-      );
-    }
+@keyframes bounce {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(12px); }
+}
 
-    .download-button {
-      padding: 1.4rem 3.8rem;
-      font-size: 1rem;
-      letter-spacing: 0.3em;
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.4);
-      background: transparent;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: pulse 3s ease-in-out infinite;
-    }
+/* BACKGROUND GALLERY – SADECE ÜST */
+#bg-gallery {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+}
 
-    .download-button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 30px rgba(255,255,255,0.35);
-    }
+.bg-item {
+  position:absolute;
+  opacity:0;
+}
 
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 rgba(255,255,255,0); }
-      50%  { box-shadow: 0 0 24px rgba(255,255,255,0.25); }
-      100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
-    }
-  </style>
+.bg-item img {
+  max-width:240px;
+  border-radius:6px;
+  filter:grayscale(100%) contrast(1.1);
+}
+
+/* ALT İÇERİK */
+.section {
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-gallery" id="bg-gallery"></div>
+<header class="hero">
+  <h1 class="logo-text">CRANUS GAMES</h1>
 
-    <h1 class="logo-text">CRANUS GAMES</h1>
+  <div class="dashboard">
+    <div class="stat">
+      <div class="stat-value" data-target="3588">0</div>
+      <div class="stat-label">VIEWS</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" data-target="1009">0</div>
+      <div class="stat-label">DOWNLOADS</div>
+    </div>
+  </div>
 
-    <div class="scroll-arrow">↓</div>
-  </section>
+  <div class="scroll-arrow">↓</div>
 
-  <!-- DOWNLOAD -->
-  <section class="download-section">
-    <a href="Game.rar" download class="download-button">
-  DOWNLOAD GAME
-</a>
+  <div id="bg-gallery"></div>
+</header>
 
-  </section>
+<section class="section">
+  <!-- buraya download butonu gelecek -->
+</section>
 
-  <script>
-    const games = [
-      { img: "https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png" },
-      { img: "https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg" },
-      { img: "https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg" },
-      { img: "https://img.itch.zone/aW1nLzIxNTA0MTE1LmpwZw==/315x250%23c/0KRwZI.jpg" }
-    ];
+<script>
+/* BACKGROUND GAMES */
+const games = [
+ {img:"https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png"},
+ {img:"https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg"},
+ {img:"https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg"}
+];
 
-    const gallery = document.getElementById("bg-gallery");
+const gallery = document.getElementById("bg-gallery");
 
-    function spawnItem() {
-      const game = games[Math.floor(Math.random() * games.length)];
+function spawnItem(){
+  const game = games[Math.floor(Math.random()*games.length)];
+  const el = document.createElement("div");
+  el.className="bg-item";
+  const img = document.createElement("img");
+  img.src=game.img;
+  el.appendChild(img);
 
-      const item = document.createElement("div");
-      item.className = "bg-item";
+  const x=Math.random()*window.innerWidth;
+  const y=Math.random()*window.innerHeight*0.8;
 
-      const img = document.createElement("img");
-      img.src = game.img;
+  el.style.transform=`translate(${x}px,${y}px) scale(.8)`;
+  gallery.appendChild(el);
 
-      item.appendChild(img);
-      gallery.appendChild(item);
+  requestAnimationFrame(()=>{
+    el.style.transition="all 2s ease";
+    el.style.opacity=1;
+    el.style.transform=`translate(${x+100}px,${y-60}px) scale(.6)`;
+  });
 
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
+  setTimeout(()=>el.remove(),3000);
+}
 
-      item.style.transform = `translate(${x}px, ${y}px) scale(0.9)`;
+setInterval(spawnItem,1200);
 
-      requestAnimationFrame(() => {
-        item.style.transition = "transform 2s ease, opacity 1.5s ease";
-        item.style.opacity = 1;
-        item.style.transform = `translate(${x + 120}px, ${y - 80}px) scale(0.6)`;
-      });
+/* COUNT UP */
+document.querySelectorAll(".stat-value").forEach(el=>{
+  const target=+el.dataset.target;
+  let current=0;
+  const step=Math.ceil(target/80);
 
-      setTimeout(() => item.style.opacity = 0, 1500);
-      setTimeout(() => item.remove(), 3000);
+  const timer=setInterval(()=>{
+    current+=step;
+    if(current>=target){
+      current=target;
+      clearInterval(timer);
     }
-
-    setInterval(spawnItem, 1200);
-  </script>
+    el.textContent=current.toLocaleString();
+  },25);
+});
+</script>
 
 </body>
 </html>

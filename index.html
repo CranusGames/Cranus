@@ -23,7 +23,8 @@
       background: var(--bg);
       color: var(--fg);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
     }
 
     /* HERO */
@@ -36,6 +37,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      scroll-snap-align: start;
     }
 
     .logo-text {
@@ -76,88 +78,133 @@
       border-radius: 6px;
       filter: grayscale(100%) contrast(1.1);
     }
+
+    /* LATEST GAME SECTION */
+    .latest-section {
+      position: relative;
+      z-index: 3;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      scroll-snap-align: start;
+      background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.04),
+        rgba(0,0,0,1) 70%
+      );
+    }
+
+    .latest-button {
+      position: relative;
+      padding: 1.4rem 3.6rem;
+      font-size: 1rem;
+      letter-spacing: 0.35em;
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: transparent;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s ease, border-color 0.35s ease;
+      animation: pulse 3.5s ease-in-out infinite;
+    }
+
+    .latest-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,255,255,0.25),
+        transparent 70%
+      );
+      transform: translateX(-120%);
+    }
+
+    .latest-button:hover {
+      transform: scale(1.08);
+      border-color: #fff;
+    }
+
+    .latest-button:hover::before {
+      animation: shine 0.9s ease forwards;
+    }
+
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 rgba(255,255,255,0); }
+      50%  { box-shadow: 0 0 24px rgba(255,255,255,0.25); }
+      100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+    }
+
+    @keyframes shine {
+      to { transform: translateX(120%); }
+    }
   </style>
 </head>
 <body>
 
+  <!-- HERO -->
   <header class="hero">
     <h1 class="logo-text">CRANUS GAMES</h1>
   </header>
 
+  <!-- BACKGROUND -->
   <div id="bg-gallery"></div>
 
+  <!-- LATEST GAME -->
+  <section class="latest-section">
+    <a
+      href="https://itch.io"
+      target="_blank"
+      class="latest-button"
+    >
+      LATEST GAME
+    </a>
+  </section>
+
   <script>
-    /*
-      GİRİŞ ARKAPLANI – ITCH.IO OYUN GÖRSELLERİ
-      SADECE GÖRSELLER
-    */
-
     const games = [
-  { img: "https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png" },
-  { img: "https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg" },
-  { img: "https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg" },
-  { img: "https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg" },
-  { img: "https://img.itch.zone/aW1nLzIxNTA0MTE1LmpwZw==/315x250%23c/0KRwZI.jpg" },
-  { img: "https://img.itch.zone/aW1nLzE5NTY4MTI3LmpwZw==/315x250%23c/oH84MZ.jpg" },
-  { img: "https://img.itch.zone/aW1nLzE4MDI0NDcwLmpwZw==/315x250%23c/474mZx.jpg" },
-  { img: "https://img.itch.zone/aW1nLzE2Nzk0Mjg5LnBuZw==/315x250%23c/CYL4Eg.png" },
-  { img: "https://img.itch.zone/aW1nLzEzODAzMTEzLnBuZw==/315x250%23c/E91JoU.png" },
-  { img: "https://img.itch.zone/aW1nLzE4Mjk3OTI1LnBuZw==/315x250%23c/7nk%2Fhu.png" },
+      { img: "https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png" },
+      { img: "https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg" },
+      { img: "https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg" },
+      { img: "https://img.itch.zone/aW1nLzIxNTA0MTE1LmpwZw==/315x250%23c/0KRwZI.jpg" },
+      { img: "https://img.itch.zone/aW1nLzE5NTY4MTI3LmpwZw==/315x250%23c/oH84MZ.jpg" },
+      { img: "https://img.itch.zone/aW1nLzE4MDI0NDcwLmpwZw==/315x250%23c/474mZx.jpg" },
+      { img: "https://img.itch.zone/aW1nLzE2Nzk0Mjg5LnBuZw==/315x250%23c/CYL4Eg.png" }
+    ];
 
-  { img: "https://img.itch.zone/aW1nLzgwNzg0NDAucG5n/315x250%23c/ao2ylP.png" },
-  { img: "https://img.itch.zone/aW1nLzc1MzM2MTUucG5n/315x250%23c/2SgGPT.png" },
-  { img: "https://img.itch.zone/aW1nLzY0OTQxNTMucG5n/315x250%23c/Ejc0rv.png" },
-  { img: "https://img.itch.zone/aW1nLzY0OTQxNTMucG5n/315x250%23c/Ejc0rv.png" },
-  { img: "https://img.itch.zone/aW1nLzE4NTEwMjk5LnBuZw==/315x250%23c/olFPGM.png" },
-  { img: "https://img.itch.zone/aW1nLzk3NzQ2NzMucG5n/315x250%23c/JMpwMY.png" },
-  { img: "https://img.itch.zone/aW1nLzg5NDQxNDEucG5n/315x250%23c/qTSA5%2B.png" },
-  { img: "https://img.itch.zone/aW1nLzEwMTE5NTI2LnBuZw==/315x250%23c/4NWpuD.png" },
-  { img: "https://img.itch.zone/aW1nLzExMzU4NjkyLmpwZw==/315x250%23c/dZ9wQa.jpg" },
-  { img: "https://img.itch.zone/aW1nLzIzNjU0MjkwLmpwZw==/315x250%23c/%2BMYq1Z.jpg" }
-];
-
-
-
-    const gallery = document.getElementById('bg-gallery');
+    const gallery = document.getElementById("bg-gallery");
 
     function spawnItem() {
       const game = games[Math.floor(Math.random() * games.length)];
 
-      const wrapper = document.createElement('div');
-      wrapper.className = 'bg-item';
+      const item = document.createElement("div");
+      item.className = "bg-item";
 
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = game.img;
 
-      wrapper.appendChild(img);
+      item.appendChild(img);
+      gallery.appendChild(item);
 
-      const startX = Math.random() * window.innerWidth;
-      const startY = Math.random() * window.innerHeight;
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * window.innerHeight;
 
-      wrapper.style.transform = `translate(${startX}px, ${startY}px) scale(0.9)`;
-
-      gallery.appendChild(wrapper);
+      item.style.transform = `translate(${x}px, ${y}px) scale(0.9)`;
 
       requestAnimationFrame(() => {
-        const moveX = startX + (Math.random() * 300 - 150);
-        const moveY = startY + (Math.random() * 200 - 100);
-        wrapper.style.transition = 'transform 2s ease-out, opacity 1.5s ease-out';
-        wrapper.style.opacity = 1;
-        wrapper.style.transform = `translate(${moveX}px, ${moveY}px) scale(0.6)`;
+        item.style.transition = "transform 2s ease, opacity 1.5s ease";
+        item.style.opacity = 1;
+        item.style.transform = `translate(${x + 120}px, ${y - 80}px) scale(0.6)`;
       });
 
-      setTimeout(() => {
-        wrapper.style.opacity = 0;
-      }, 1500);
-
-      setTimeout(() => {
-        wrapper.remove();
-      }, 3000);
+      setTimeout(() => item.style.opacity = 0, 1500);
+      setTimeout(() => item.remove(), 3000);
     }
 
-    setInterval(() => {
-      if (games.length > 0) spawnItem();
-    }, 1200);
+    setInterval(spawnItem, 1200);
   </script>
 
 </body>

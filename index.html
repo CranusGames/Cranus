@@ -3,67 +3,166 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Emir</title>
+  <title>CRANUS GAMES</title>
+
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-    }
     :root {
       --bg: #000;
       --fg: #fff;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    * {
+      box-sizing: border-box;
     }
 
-    .hero {
+    html, body {
+      margin: 0;
+      padding: 0;
       width: 100%;
-      padding-top: 4rem;
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
     }
 
     .logo-text {
-      font-size: clamp(2.5rem, 8vw, 6rem);
-      letter-spacing: 0.15em;
+      font-size: clamp(3rem, 9vw, 7rem);
+      letter-spacing: 0.18em;
       font-weight: 600;
-      position: relative;
       animation: float 4s ease-in-out infinite, glow 2.5s ease-in-out infinite alternate;
     }
 
     @keyframes float {
       0% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-14px); }
       100% { transform: translateY(0); }
     }
 
     @keyframes glow {
-      from {
-        text-shadow: 0 0 8px rgba(255,255,255,0.2);
-      }
-      to {
-        text-shadow: 0 0 24px rgba(255,255,255,0.6);
-      }
+      from { text-shadow: 0 0 8px rgba(255,255,255,0.2); }
+      to   { text-shadow: 0 0 26px rgba(255,255,255,0.6); }
     }
 
-</style>
+    /* BACKGROUND GALLERY */
+    #bg-gallery {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .bg-item {
+      position: absolute;
+      opacity: 0;
+      will-change: transform, opacity;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .bg-item img {
+      max-width: 260px;
+      border-radius: 6px;
+      filter: grayscale(100%) contrast(1.1);
+    }
+
+    .bg-item span {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      opacity: 0.75;
+    }
+  </style>
 </head>
 <body>
+
   <header class="hero">
     <h1 class="logo-text">CRANUS GAMES</h1>
   </header>
 
+  <div id="bg-gallery"></div>
+
   <script>
-    // Simple JS hook reserved for future interactions
+    /*
+      GİRİŞ ARKAPLANI – ITCH.IO OYUN GÖRSELLERİ
+      Görsel URL'lerini ve isimlerini manuel giriyoruz
+    */
+
+    const games = [
+      {
+        name: "GAME ONE",
+        img: "https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png"
+      },
+      {
+        name: "GAME TWO",
+        img: "https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg"
+      },
+      {
+        name: "GAME THREE",
+        img: "https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg"
+      }
+      // KENDİ ITCH.IO KAPAK GÖRSELLERİNİ BURAYA EKLE
+    ];
+
+    const gallery = document.getElementById('bg-gallery');
+
+    function spawnItem() {
+      const game = games[Math.floor(Math.random() * games.length)];
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'bg-item';
+
+      const img = document.createElement('img');
+      img.src = game.img;
+
+      const label = document.createElement('span');
+      label.textContent = game.name;
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(label);
+
+      const startX = Math.random() * window.innerWidth;
+      const startY = Math.random() * window.innerHeight;
+
+      wrapper.style.transform = `translate(${startX}px, ${startY}px) scale(0.9)`;
+
+      gallery.appendChild(wrapper);
+
+      requestAnimationFrame(() => {
+        const moveX = startX + (Math.random() * 300 - 150);
+        const moveY = startY + (Math.random() * 200 - 100);
+        wrapper.style.transition = 'transform 2s ease-out, opacity 1.5s ease-out';
+        wrapper.style.opacity = 1;
+        wrapper.style.transform = `translate(${moveX}px, ${moveY}px) scale(0.6)`;
+      });
+
+      setTimeout(() => {
+        wrapper.style.opacity = 0;
+      }, 1500);
+
+      setTimeout(() => {
+        wrapper.remove();
+      }, 3000);
+    }
+
+    setInterval(() => {
+      if (games.length > 0) spawnItem();
+    }, 1200);
   </script>
+
 </body>
 </html>

@@ -20,6 +20,7 @@ html,body {
   background:var(--bg);
   color:var(--fg);
   font-family:Inter,system-ui,sans-serif;
+  overflow-x:hidden;
 }
 
 /* HERO */
@@ -34,11 +35,49 @@ html,body {
   overflow:hidden;
 }
 
+/* LOGO */
 .logo-text {
+  position:relative;
   font-size:clamp(3rem,9vw,7rem);
   letter-spacing:0.18em;
   font-weight:600;
+  z-index:2;
   animation:float 4s ease-in-out infinite, glow 2.5s ease-in-out infinite alternate;
+}
+
+.logo-text::before,
+.logo-text::after {
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+
+.logo-text:hover::before {
+  opacity:1;
+  color:#0ff;
+  transform:translate(2px,-2px);
+  animation:glitch1 .15s steps(2,end) infinite;
+}
+
+.logo-text:hover::after {
+  opacity:1;
+  color:#f0f;
+  transform:translate(-2px,2px);
+  animation:glitch2 .15s steps(2,end) infinite;
+}
+
+@keyframes glitch1 {
+  0%{clip-path:inset(0 0 70% 0)}
+  50%{clip-path:inset(30% 0 30% 0)}
+  100%{clip-path:inset(70% 0 0 0)}
+}
+
+@keyframes glitch2 {
+  0%{clip-path:inset(60% 0 0 0)}
+  50%{clip-path:inset(10% 0 60% 0)}
+  100%{clip-path:inset(0 0 40% 0)}
 }
 
 @keyframes float {
@@ -60,10 +99,6 @@ html,body {
   z-index:2;
 }
 
-.stat {
-  text-align:center;
-}
-
 .stat-value {
   font-size:2rem;
   font-weight:600;
@@ -81,6 +116,7 @@ html,body {
   font-size:3rem;
   animation:bounce 1.6s infinite;
   opacity:.8;
+  z-index:2;
 }
 
 @keyframes bounce {
@@ -88,26 +124,14 @@ html,body {
   50% { transform:translateY(12px); }
 }
 
-/* BACKGROUND GALLERY – SADECE ÜST */
-#bg-gallery {
+/* RAIN CANVAS */
+#rain {
   position:absolute;
   inset:0;
-  pointer-events:none;
   z-index:1;
 }
 
-.bg-item {
-  position:absolute;
-  opacity:0;
-}
-
-.bg-item img {
-  max-width:240px;
-  border-radius:6px;
-  filter:grayscale(100%) contrast(1.1);
-}
-
-/* ALT İÇERİK */
+/* ALT */
 .section {
   min-height:100vh;
   display:flex;
@@ -120,63 +144,27 @@ html,body {
 <body>
 
 <header class="hero">
-  <h1 class="logo-text">CRANUS GAMES</h1>
+  <canvas id="rain"></canvas>
+
+  <h1 class="logo-text" data-text="CRANUS GAMES">CRANUS GAMES</h1>
 
   <div class="dashboard">
-    <div class="stat">
+    <div>
       <div class="stat-value" data-target="3588">0</div>
       <div class="stat-label">VIEWS</div>
     </div>
-    <div class="stat">
+    <div>
       <div class="stat-value" data-target="1009">0</div>
       <div class="stat-label">DOWNLOADS</div>
     </div>
   </div>
 
   <div class="scroll-arrow">↓</div>
-
-  <div id="bg-gallery"></div>
 </header>
 
-<section class="section">
-  <!-- buraya download butonu gelecek -->
-</section>
+<section class="section"></section>
 
 <script>
-/* BACKGROUND GAMES */
-const games = [
- {img:"https://img.itch.zone/aW1nLzI1NDQ2MzYzLnBuZw==/315x250%23c/XiGIE8.png"},
- {img:"https://img.itch.zone/aW1nLzIzMjY0NjcxLmpwZw==/315x250%23c/VfDDuM.jpg"},
- {img:"https://img.itch.zone/aW1nLzI0NTc5NDMwLmpwZw==/315x250%23c/WJJKiE.jpg"}
-];
-
-const gallery = document.getElementById("bg-gallery");
-
-function spawnItem(){
-  const game = games[Math.floor(Math.random()*games.length)];
-  const el = document.createElement("div");
-  el.className="bg-item";
-  const img = document.createElement("img");
-  img.src=game.img;
-  el.appendChild(img);
-
-  const x=Math.random()*window.innerWidth;
-  const y=Math.random()*window.innerHeight*0.8;
-
-  el.style.transform=`translate(${x}px,${y}px) scale(.8)`;
-  gallery.appendChild(el);
-
-  requestAnimationFrame(()=>{
-    el.style.transition="all 2s ease";
-    el.style.opacity=1;
-    el.style.transform=`translate(${x+100}px,${y-60}px) scale(.6)`;
-  });
-
-  setTimeout(()=>el.remove(),3000);
-}
-
-setInterval(spawnItem,1200);
-
 /* COUNT UP */
 document.querySelectorAll(".stat-value").forEach(el=>{
   const target=+el.dataset.target;
@@ -192,6 +180,49 @@ document.querySelectorAll(".stat-value").forEach(el=>{
     el.textContent=current.toLocaleString();
   },25);
 });
+
+/* LOFI RAIN */
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+let w,h;
+const drops=[];
+
+function resize(){
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+for(let i=0;i<300;i++){
+  drops.push({
+    x:Math.random()*w,
+    y:Math.random()*h,
+    l:Math.random()*1.5+0.5,
+    v:Math.random()*4+3
+  });
+}
+
+function rain(){
+  ctx.clearRect(0,0,w,h);
+  ctx.strokeStyle="rgba(255,255,255,.15)";
+  ctx.lineWidth=1;
+
+  for(const d of drops){
+    ctx.beginPath();
+    ctx.moveTo(d.x,d.y);
+    ctx.lineTo(d.x,d.y+15*d.l);
+    ctx.stroke();
+
+    d.y+=d.v;
+    if(d.y>h){
+      d.y=-20;
+      d.x=Math.random()*w;
+    }
+  }
+  requestAnimationFrame(rain);
+}
+rain();
 </script>
 
 </body>

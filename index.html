@@ -6,257 +6,152 @@
 <title>Cranus Games</title>
 
 <style>
-:root{
-  --bg1:#16002b;
-  --bg2:#3a006a;
-  --fg:#ffffff;
-}
-
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
   font-family:system-ui,-apple-system,Segoe UI,sans-serif;
 }
 
 body{
-  min-height:100vh;
-  background:linear-gradient(180deg,var(--bg1),var(--bg2));
-  color:var(--fg);
-  overflow-x:hidden;
+  background:#0e0e12;
+  color:#eaeaea;
 }
 
-/* Kar efekti */
-canvas{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
+/* Genel yapı */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:80px 24px;
 }
 
-/* Genel içerik */
-main{
-  position:relative;
-  z-index:2;
-  padding:90px 7vw 60px;
+/* Üst alan */
+.hero{
+  margin-bottom:90px;
 }
 
-/* Üst başlık */
-header{
-  margin-bottom:70px;
-}
-
-header h1{
-  font-size:clamp(2.2rem,6vw,3.6rem);
-  letter-spacing:.22em;
+.hero h1{
+  font-size:clamp(2.4rem,5vw,3.5rem);
+  letter-spacing:.18em;
   margin-bottom:20px;
 }
 
-header p{
-  max-width:620px;
-  font-size:.95rem;
+.hero p{
+  max-width:600px;
+  font-size:1rem;
   line-height:1.7;
   opacity:.75;
 }
 
-/* Projeler */
-section{
-  margin-top:90px;
-}
-
-section h2{
-  font-size:1.2rem;
-  letter-spacing:.3em;
+/* Bölüm başlığı */
+.section-title{
   margin-bottom:40px;
-  opacity:.85;
+  font-size:.9rem;
+  letter-spacing:.25em;
+  opacity:.6;
 }
 
 /* Proje grid */
 .projects{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:28px;
 }
 
 /* Proje kartı */
 .project{
   display:block;
-  border-radius:18px;
+  background:#16161d;
+  border-radius:14px;
   overflow:hidden;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.14);
-  transition:.35s;
+  border:1px solid rgba(255,255,255,.08);
+  transition:.3s;
 }
 
 .project img{
   width:100%;
-  height:180px;
+  height:170px;
   object-fit:cover;
   display:block;
-  transition:.35s;
+}
+
+.project-info{
+  padding:14px 16px;
+}
+
+.project-title{
+  font-size:.95rem;
+  margin-bottom:6px;
+}
+
+.project-desc{
+  font-size:.75rem;
+  opacity:.6;
+  line-height:1.5;
 }
 
 .project:hover{
-  transform:translateY(-8px);
-  box-shadow:0 18px 40px rgba(0,0,0,.55);
-}
-
-.project:hover img{
-  transform:scale(1.06);
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,.2);
 }
 
 /* Alt kısım */
 footer{
   margin-top:120px;
   padding-top:40px;
-  border-top:1px solid rgba(255,255,255,.15);
+  border-top:1px solid rgba(255,255,255,.1);
   font-size:.7rem;
   letter-spacing:.15em;
-  opacity:.5;
+  opacity:.45;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="snow"></canvas>
+<div class="container">
 
-<main>
-
-  <!-- ÜST KISIM -->
-  <header>
+  <!-- ÜST -->
+  <div class="hero">
     <h1>CRANUS GAMES</h1>
     <p>
-      Independent game developer focused on small-scope, experimental
-      projects and game jam productions.  
-      Exploring mechanics, atmosphere and ideas through rapid development.
+      Independent game developer.  
+      I focus on small-scope projects, game jams and experimental mechanics.
+      Mostly gameplay-driven ideas with fast iteration.
     </p>
-  </header>
+  </div>
 
   <!-- PROJELER -->
-  <section>
-    <h2>GAME JAM PROJECTS</h2>
+  <div class="section-title">PROJECTS</div>
 
-    <div class="projects">
+  <div class="projects">
 
-      <!-- 🔁 PROJE ŞABLONU -->
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project1.jpg" alt="Game Project">
-      </a>
-      <!-- 🔁 PROJE ŞABLONU -->
+    <!-- PROJE ŞABLONU -->
+    <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
+      <img src="images/game1.jpg" alt="">
+      <div class="project-info">
+        <div class="project-title">Game Title</div>
+        <div class="project-desc">Game Jam Project</div>
+      </div>
+    </a>
+    <!-- PROJE ŞABLONU -->
 
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
+    <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
+      <img src="images/game2.jpg" alt="">
+      <div class="project-info">
+        <div class="project-title">Another Game</div>
+        <div class="project-desc">Prototype / Short Project</div>
+      </div>
+    </a>
 
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
+  </div>
 
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-       <!-- 🔁 PROJE ŞABLONU -->
-
-      <a class="project" href="https://itch.io/LINK_BURAYA" target="_blank">
-        <img src="images/project2.jpg" alt="Game Project">
-      </a>
-
-
-    </div>
-  </section>
-
-  <!-- ALT KISIM -->
+  <!-- ALT -->
   <footer>
-    © 2026 Cranus Games
+    © Cranus Games
   </footer>
 
-</main>
-
-<script>
-/* Smooth kar efekti */
-const canvas = document.getElementById("snow");
-const ctx = canvas.getContext("2d");
-
-let w,h;
-function resize(){
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-const flakes = Array.from({length:130},()=>({
-  x:Math.random()*w,
-  y:Math.random()*h,
-  r:Math.random()*2+0.4,
-  s:Math.random()*0.6+0.2
-}));
-
-function draw(){
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="rgba(255,255,255,.75)";
-  flakes.forEach(f=>{
-    ctx.beginPath();
-    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    ctx.fill();
-    f.y += f.s;
-    if(f.y>h){
-      f.y=0;
-      f.x=Math.random()*w;
-    }
-  });
-  requestAnimationFrame(draw);
-}
-draw();
-</script>
+</div>
 
 </body>
 </html>
